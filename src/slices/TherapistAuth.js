@@ -48,6 +48,7 @@ export default slice.reducer
 const { registerSuccess,loginSuccess,registerLoading,registerFailed, logoutSuccess } = slice.actions
 
 export const register = ({name,email,password,gender,city,ethnicity,about,education,away,image,insurance,focus,online,person,title }) => async dispatch => {
+  if(away){
   try {
     dispatch(registerLoading())
     auth
@@ -89,6 +90,9 @@ export const register = ({name,email,password,gender,city,ethnicity,about,educat
   } catch (e) {
     return console.error(e.message);
   }
+}else{
+  alert("please fill out all fields")
+}
 }
 
 export const login = ({email,password}) => async dispatch => {
