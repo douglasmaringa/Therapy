@@ -25,7 +25,7 @@ function Nav() {
     <div>
       <nav class="bg-white border-gray-100 border-2 px-2 sm:px-4 py-4 rounded dark:bg-gray-800">
   <div class="container flex flex-wrap justify-between items-center mx-auto">
-  <a href="/home" class="flex items-center">
+  <a href="https://infallible-lamport-37a39c.netlify.app/" class="flex items-center">
       <img src="https://images.squarespace-cdn.com/content/v1/61d75d93d08895301e56f1cb/881daf16-85f1-4e1a-96e5-1786cbd71764/AndStillWeRise_logo_color_notag-sm.png?format=1500w" width={80} height={50} class="mr-3 h-6 sm:h-10" alt="Flowbite Logo" />
       <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">And Still We Rise</span>
   </a>
