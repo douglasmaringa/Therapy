@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import firebase from "firebase"
 import { auth,db} from "../base";
 
+
 // Slice
 
 const initialUser = localStorage.getItem('user')

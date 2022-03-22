@@ -2,219 +2,104 @@ import React, { useEffect,useState } from "react";
 import {db} from '../base'
 import Nav from "../components/Nav"
 import {useSelector} from 'react-redux'
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
+import { useNavigate } from 'react-router-dom';
 
 
 function Profile() {
-    const[data,setData]=useState([])
-  
+   // const[data,setData]=useState([])
+    const navigate = useNavigate();
+
     const { user } = useSelector(state => state.user)
 
-    const [open1, setOpen1] = React.useState(false);
-    const handleClose = () => setOpen1(false);
-
-    const [open2, setOpen2] = React.useState(false);
-    const handleClose2 = () => setOpen2(false);
-
-    const [open3, setOpen3] = React.useState(false);
-    const handleClose3 = () => setOpen3(false);
-
-    const[id,setId]=useState("")
+       const[id,setId]=useState("")
 
     const[title,setTitle]=useState("")
     const[about,setAbout]=useState("")
     const[away,setAway]=useState("")
+    const[image,setImage]=useState("")
+    const[name,setName]=useState("")
+    const[other,setOther]=useState([])
+
    
 
     //console.log(user.email)
 
     useEffect(() => {
-
-      db.collection("users").where("email","==",user.email)
+      if(user){
+      db.collection("users").where("email","==",user?.email)
       .onSnapshot((querySnapshot) => {
          
-        setData(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
-        
+        //setData(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
+        querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })).forEach((e)=>{
+          setTitle(e.title)
+          setAbout(e.about)
+          setAway(e.away)
+          setImage(e.image)
+          setName(e.name)
+          setOther(e)
+          setId(e.id)
+        })
+      
   })
-
-      
-    }, [user.email])
-
-    const openModal=(id)=>{
-        console.log(id)
-        setId(id)
-        setOpen1(true)
-      }
-
-      const openModal2=(id)=>{
-        console.log(id)
-        setId(id)
-        setOpen2(true)
-      }
-
-      const openModal3=(id)=>{
-        console.log(id)
-        setId(id)
-        setOpen3(true)
+      }else{
+          navigate("/")
       }
       
-      
-      const update =()=>{
-          if(title){
+    }, [user?.email,navigate,user])
+
+    const updateTitle = ()=>{
+      if(title){
         db.collection('users').doc(id).update({
            
           title:title,
           
          })
-         setTitle("")
-         setOpen1(false)
+         alert("updated")
       }
-    else if(about){
-        db.collection('users').doc(id).update({
-           
-            
-            about:about,
-           
-           })
-           setAbout("")
-           setOpen1(false)
-    }else if(away){
-        db.collection('users').doc(id).update({
-           
-        
-            away:away
-           })
-           setAway("")
-           setOpen1(false)
-    
-    }else{
-        alert("field cannot be empty")
-        }
-
     }
 
-    console.log(data)
+    const updateAbout = ()=>{
+      if(about){
+        db.collection('users').doc(id).update({
+           
+          about:about,
+          
+         })
+         alert("updated")
+      }
+    }
+
+    const updateAway = ()=>{
+      if(away){
+        db.collection('users').doc(id).update({
+           
+         away:away,
+          
+         })
+         alert("updated")
+      }
+    }
+
+     
+
+    //console.log(data)
 
   return (
     <div>
-        <Modal
-        open={open1}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-                                 <div class="col-md-12 px-0 border-top">
-                                 <div class="form-group">
-                                        <label for="exampleInputName1">Professional Title</label>
-                                        <input type="text" class="form-control" id="exampleInputName1d" value={title} onChange={(e)=>{setTitle(e.target.value)}}/>
-                                    </div>
-                                   
-                                   
-                               
-                        </div>
-
-                        
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-         
-            <span class="float-right"><div class="text-right">
-                                                    <button onClick={()=>{update()}} class="btn btn-outline-primary px-3">Update</button>
-                                                </div></span>
-          </Typography>
-        </Box>
-      </Modal>
-
-      <Modal
-        open={open2}
-        onClose={handleClose2}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-                                 <div class="col-md-12 px-0 border-top">
-                                
-                                    <div class="form-group">
-                                        <label for="exampleInputName1">What Do u want clients to know about you?</label>
-                                        <input type="text" class="form-control" id="exampleInputName1d" value={about} onChange={(e)=>{setAbout(e.target.value)}}/>
-                                    </div>
-                                    
-                                   
-                               
-                        </div>
-
-                        
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-         
-            <span class="float-right"><div class="text-right">
-                                                    <button onClick={()=>{update()}} class="btn btn-outline-primary px-3">Update</button>
-                                                </div></span>
-          </Typography>
-        </Box>
-      </Modal>
-
-      <Modal
-        open={open3}
-        onClose={handleClose3}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-                                 <div class="col-md-12 px-0 border-top">
-                                
-                                    <div class="form-group">
-                                        <label for="exampleInputName1">What Do u want clients to take away from this?</label>
-                                        <input type="text" class="form-control" id="exampleInputName1d" value={away} onChange={(e)=>{setAway(e.target.value)}}/>
-                                    </div>
-                                   
-                               
-                        </div>
-
-                        
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-         
-            <span class="float-right"><div class="text-right">
-                                                    <button onClick={()=>{update()}} class="btn btn-outline-primary px-3">Update</button>
-                                                </div></span>
-          </Typography>
-        </Box>
-      </Modal>
-
+        
      
 <div>
         <Nav/>
-{
-    data.map((e)=>(
-        <>
-        
+
        
         <div className="lg:flex w-full sm:flex-col md:flex-row lg:flex-row mb-4 ">
 
         <div className="flex-auto w-24 ... mt-10 mx-auto">
            
-           <img className="rounded-full mx-auto" src={e.image} width={220} height={180} alt="" />
+           <img className="rounded-full mx-auto" src={image} width={220} height={180} alt="" />
            <div className="flex">
             {
-                e?.online?(<>
+                other?.online?(<>
                
                  <button className="bg-white m-auto mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
                         Offers Video
@@ -226,7 +111,7 @@ function Profile() {
 
              <div className="flex">
             {
-                e?.person?(<>
+                other?.person?(<>
                
                  <button className="bg-white m-auto mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
                         Offers in Person
@@ -237,11 +122,17 @@ function Profile() {
              </div>
         </div>
         <div className="flex-auto w-64 ... mt-10 mx-auto">
-            <h1 className="text-green-600 mt-10 font-light text-3xl">{e.name}</h1>
-            <h1 className=" font-light text-xl">{e.title}</h1>
-            <button onClick={()=>{openModal(e.id)}} className="bg-red-900 m-auto mt-5 border-green-600 border-2 text-white  hover:bg-green-900 hover:text-red-800 font-bold py-2 px-4 rounded-lg ">
-                       Edit
+            <h1 className="text-green-600 mt-10 font-light text-3xl">{name}</h1>
+           
+            <div className="w-full mt-4 pr-4">
+                        <label className="block uppercase tracking-wide text-xs font-bold mb-2" for="grid-last-name">
+                          Title
+                        </label>
+                        <input value={title} onChange={(e)=>{setTitle(e.target.value)}}  className="appearance-none block w-full bg-gray-200  border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Enter New Title"/>
+                        <button onClick={updateTitle} className="bg-white  mt-5 border-red-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                      Update
                       </button>
+                      </div>
             <h1 className="text-green-600 mt-10 font-light text-3xl">Next Available Times</h1>
             <div className="flex border-b-2 border-gray-400 pb-8">
             
@@ -251,15 +142,17 @@ function Profile() {
                       <button className="bg-white ml-1 mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
                       April 22 2 pm
                       </button>
-                      <button className="bg-white ml-1  mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
-                      April 22 4 pm
+                     
+
+                      <button className="bg-white ml-1  mt-5 border-blue-600 border-2 text-black  hover:bg-blue-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                     Create Availability
                       </button>
             </div>
             <h1 className="text-green-600 mt-10 ml-4 font-light text-3xl">Focus Area</h1>
             <div className="grid sm:grid-cols-1 lg:grid-cols-3 border-b-2 border-gray-400 pb-8">
             
             {
-                e?.specialty?.map((m)=>(
+                other?.specialty?.map((m)=>(
                     <>
                      <button className="bg-gray-200  mr-4 ml-2 h-12 w-38 text-sm  mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold  px-4 rounded-3xl ">
                     {m}
@@ -274,19 +167,27 @@ function Profile() {
             <h1 className="text-green-600 mt-10 font-light text-3xl">What do you want clients to know about you?</h1>
             <div className="flex border-b-2 border-gray-400 pb-8">
             
-                     <p className="font-light mt-4">{e.about}</p>
-            </div>
-            <button onClick={()=>{openModal2(e.id)}} className="bg-red-900 m-auto mt-5 border-green-600 border-2 text-white  hover:bg-green-900 hover:text-red-800 font-bold py-2 px-4 rounded-lg ">
-                       Edit
+            <div className="w-full mt-4 pr-4">
+                       
+                        <textarea value={about} onChange={(e)=>{setAbout(e.target.value)}}  className="appearance-none h-80 block w-full bg-gray-200  border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Enter New Title"/>
+                        <button onClick={updateAbout} className="bg-white  mt-5 border-red-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                      Update
                       </button>
+                      </div>
+            </div>
+            
             <h1 className="text-green-600 mt-10 font-light text-3xl">What can clients expect to take away from sessions with you?</h1>
             <div className="flex border-b-2 border-gray-400 pb-8">
             
-                     <p className="font-light mt-4">{e.away}</p>
-            </div>
-            <button onClick={()=>{openModal3(e.id)}} className="bg-red-900 m-auto mt-5 border-green-600 border-2 text-white  hover:bg-green-900 hover:text-red-800 font-bold py-2 px-4 rounded-lg ">
-                       Edit
+            <div className="w-full mt-4 pr-4">
+                       
+                        <textarea value={away} onChange={(e)=>{setAway(e.target.value)}}  className="appearance-none h-40 block w-full bg-gray-200  border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Enter New Title"/>
+                        <button onClick={updateAway} className="bg-white  mt-5 border-red-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                      Update
                       </button>
+                      </div>
+            </div>
+           
         </div>
 
 
@@ -296,7 +197,7 @@ function Profile() {
             <h1 className="text-green-600 mt-10 font-light ml-4 pr-4 text-3xl">Accepted Insurance</h1>
             <div className="flex border-b-2 border-gray-400 mr-10 pb-8">
             
-           {e?.insurance?.map((m)=>(
+           {other?.insurance?.map((m)=>(
                <>
                <p className="ml-4 mt-8">{m}</p>
                </>
@@ -307,9 +208,7 @@ function Profile() {
 
         </div>
 
-        </>
-    ))
-}
+       
     </div>
 
     </div>
