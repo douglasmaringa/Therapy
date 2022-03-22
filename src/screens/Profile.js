@@ -3,6 +3,23 @@ import {db} from '../base'
 import Nav from "../components/Nav"
 import {useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+
 
 
 function Profile() {
@@ -20,6 +37,13 @@ function Profile() {
     const[name,setName]=useState("")
     const[other,setOther]=useState([])
 
+    //booking modal state
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => setOpen(false);
+
+    const openModal=()=>{
+      setOpen(true)
+    }
    
 
     //console.log(user.email)
@@ -90,6 +114,34 @@ function Profile() {
      
 <div>
         <Nav/>
+        <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+                        <div class="">
+                        <h1 className="text-green-600  font-light text-3xl">When Are You Available</h1>
+            <div className="">
+                      <div class="flex">
+                     <button className="bg-white w-1/2  mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                       Date
+                      </button>
+                      <button className="bg-white w-1/2 ml-1 mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                      Time
+                      </button>
+                      </div>
+
+                      <button  className="bg-white ml-1 w-full  mt-5 border-blue-600 border-2 text-black  hover:bg-blue-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                     Create Availability
+                      </button>
+            </div>   
+                        </div>
+            </Typography>
+        </Box>
+      </Modal>
 
        
         <div className="lg:flex w-full sm:flex-col md:flex-row lg:flex-row mb-4 ">
@@ -144,7 +196,7 @@ function Profile() {
                       </button>
                      
 
-                      <button className="bg-white ml-1  mt-5 border-blue-600 border-2 text-black  hover:bg-blue-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                      <button onClick={openModal} className="bg-white ml-1  mt-5 border-blue-600 border-2 text-black  hover:bg-blue-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
                      Create Availability
                       </button>
             </div>
