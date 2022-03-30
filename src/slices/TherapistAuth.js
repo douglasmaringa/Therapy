@@ -22,6 +22,11 @@ const slice = createSlice({
       state.user = action.payload;
       localStorage.setItem('user', JSON.stringify(action.payload))
     },
+    registerClientSuccess: (state, action) => {
+      state.loading = false;
+    state.user = action.payload;
+    localStorage.setItem('user', JSON.stringify(action.payload))
+  },
     loginSuccess: (state, action) => {
         state.loading = false;
       state.user = action.payload;
@@ -46,8 +51,39 @@ export default slice.reducer
 
 // Actions
 
-const { registerSuccess,loginSuccess,registerLoading,registerFailed, logoutSuccess } = slice.actions
+const { registerClientSuccess,registerSuccess,loginSuccess,registerLoading,registerFailed, logoutSuccess } = slice.actions
 
+export const registerClient = ({name,email,password,image}) => async dispatch => {
+  if(name){
+  try {
+    dispatch(registerLoading())
+    auth
+    .createUserWithEmailAndPassword(email,password)
+    .then((auth )=>{
+     
+         db.collection('clients').add({
+            timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+            email:email,
+            name:name,
+            image:image,
+            userid:auth.user.uid,
+            chatroom:[],
+            friends:[],
+            bookings:[]
+           })
+          
+            dispatch(registerClientSuccess(auth.user))
+    })
+    .catch(e=> alert(e.message))
+    dispatch(registerFailed())
+    
+  } catch (e) {
+    return console.error(e.message);
+  }
+}else{
+  alert("please fill out all fields")
+}
+}
 export const register = ({name,email,password,gender,city,ethnicity,about,education,away,image,insurance,focus,online,person,title }) => async dispatch => {
   if(away){
   try {

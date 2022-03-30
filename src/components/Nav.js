@@ -1,21 +1,48 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {logout} from '../slices/TherapistAuth'
 import { useNavigate } from 'react-router-dom';
+import { db} from "../base";
 
 function Nav() {
   const { user } = useSelector(state => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate();
+  const[client,setClient]=useState(false)
+
   
   useEffect(() => {
    if(user){
-     console.log(user)
+     //console.log(user)
    }else{
      navigate("/login")
    }
   }, [user,navigate])
+
+  useEffect(() => {
+    if(user){
+    db.collection("users").where("email","==",user.email)
+    .onSnapshot((querySnapshot) => {
+       
+      //console.log(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
+      if(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })).length>0){
+      setClient(false)
+      }
+    
+})
+db.collection("clients").where("email","==",user.email)
+    .onSnapshot((querySnapshot) => {
+      //console.log(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
+      if(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })).length>0){
+        setClient(true)
+        }else{
+          setClient(false)
+        }
+})
+    }
+  }, [user])
   
+  //console.log(client)
 
   const signOut = ()=>{
     dispatch(logout())
@@ -30,10 +57,17 @@ function Nav() {
       <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">And Still We Rise</span>
   </a>
   <div class="flex items-center md:order-2">
-      <button onClick={()=>{navigate("/profile")}} class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" type="button" data-dropdown-toggle="dropdown">
+    {
+      client?(<>
+      
+      </>):(<>
+        <button onClick={()=>{navigate("/profile")}} class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" type="button" data-dropdown-toggle="dropdown">
         <span class="sr-only">Open user menu</span>
         <img class="w-8 h-8 rounded-full" src={"https://png.pngtree.com/png-clipart/20190705/original/pngtree-cartoon-european-and-american-character-avatar-design-png-image_4366075.jpg"} alt="user"/>
       </button>
+     
+      </>)
+    }
      
       
       <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
@@ -57,7 +91,7 @@ function Nav() {
         <button  class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">For Health Plans</button>
       </li>
       <li>
-        <button class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Company</button>
+        <button onClick={()=>{navigate("/connections")}} class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Connections</button>
       </li>
       <li>
         <button onClick={signOut} class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Logout</button>

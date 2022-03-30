@@ -6,6 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import firebase from "firebase";
+import dateFormat from 'dateformat';
+import HorizontalScroll from 'react-horizontal-scrolling'
 
 const style = {
   position: 'absolute',
@@ -25,10 +30,11 @@ const style = {
 function Profile() {
    // const[data,setData]=useState([])
     const navigate = useNavigate();
-
+    const[date,setDate]=useState("")
     const { user } = useSelector(state => state.user)
 
        const[id,setId]=useState("")
+       const[data,setData]=useState([])
 
     const[title,setTitle]=useState("")
     const[about,setAbout]=useState("")
@@ -47,6 +53,20 @@ function Profile() {
    
 
     //console.log(user.email)
+
+    useEffect(() => {
+       
+      //using chatroom id we get from conversation page we then look for that chat room using the chatID feild we added in users and said was not neccessary
+      db.collection("timeslots").where("email", "==", user.email)
+      .onSnapshot((querySnapshot) => {
+         
+        setData(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
+         
+  })
+
+   
+}, [user])
+console.log(data[0]?.bookings)
 
     useEffect(() => {
       if(user){
@@ -104,6 +124,25 @@ function Profile() {
       }
     }
 
+    //create availability
+    const createBook = ()=>{
+      console.log(date)
+      db.collection('timeslots').doc(data[0]?.id).update({
+        timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+       dateTime:firebase.firestore.FieldValue.arrayUnion({"slot":date,"Booked":false})
+       })
+      alert("done")
+    }
+
+    //create availability
+    const deleteBook = (e)=>{
+      //deletes the current time slot
+      db.collection('timeslots').doc(data[0]?.id).update({
+        timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+       dateTime:firebase.firestore.FieldValue.arrayRemove(e)
+       })
+      alert("deleted")
+    }
      
 
     //console.log(data)
@@ -126,15 +165,22 @@ function Profile() {
                         <h1 className="text-green-600  font-light text-3xl">When Are You Available</h1>
             <div className="">
                       <div class="flex">
-                     <button className="bg-white w-1/2  mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
-                       Date
-                      </button>
-                      <button className="bg-white w-1/2 ml-1 mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
-                      Time
-                      </button>
+                      <Stack component="form" noValidate spacing={3}>
+      <TextField
+        id="datetime-local"
+        label="Next appointment"
+        type="datetime-local"
+        value={date}
+        onChange={(e)=>{setDate(e.target.value)}}
+        sx={{ width: 250 }}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+    </Stack>
                       </div>
 
-                      <button  className="bg-white ml-1 w-full  mt-5 border-blue-600 border-2 text-black  hover:bg-blue-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                      <button onClick={createBook}  className="bg-white ml-1 w-full  mt-5 border-blue-600 border-2 text-black  hover:bg-blue-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
                      Create Availability
                       </button>
             </div>   
@@ -185,19 +231,49 @@ function Profile() {
                       Update
                       </button>
                       </div>
-            <h1 className="text-green-600 mt-10 font-light text-3xl">Next Available Times</h1>
-            <div className="flex border-b-2 border-gray-400 pb-8">
-            
-                     <button className="bg-white  mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
-                       April 22 1 pm
-                      </button>
-                      <button className="bg-white ml-1 mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
-                      April 22 2 pm
-                      </button>
-                     
+            <h1 className="text-green-600 mt-10 font-light text-3xl">Next Available Times <span className="text-red-600">(Click to remove)</span></h1>
+            <div className="flex flex-row border-b-2 border-gray-400 pb-8">
+            <div className="flex overflow-auto">
+                        
+                     {
+                       
+                       data[0]?.dateTime.map((e)=>(
+                       
+                         <>
+                            <div className="w-80">
+                              {
+                                e.slot?(<>
+                                     {
+                                       e.Booked?(<>
+                                       <button title="Booked TimeSlot" className="w-56 mx-2  mt-5 bg-gray-400 border-black border-2 text-white font-bold py-2 px-4 rounded-lg ">
+                                      {dateFormat(e.slot, "mmmm dS,h:MM TT")} &#x2192;
+                                     </button>
+
+                                       </>):(<>
+                                        <button onClick={()=>{deleteBook(e)}} className="bg-white w-56 mx-2  mt-5 border-green-600 border-2 text-black  hover:bg-red-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                                      {dateFormat(e.slot, "mmmm dS,h:MM TT")} &#x2192;
+                                     </button>
+                                       
+                                       </>)
+                                     }
+                                     
+                                </>):(<>
+                                  <button className="bg-white w-56 mx-2  mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                                    No Available Slots 
+                                   </button>
+                                </>)
+                              }
+                            
+                           </div>
+                          </>
+                         
+                       ))
+                      
+                     }
+                    </div>
 
                       <button onClick={openModal} className="bg-white ml-1  mt-5 border-blue-600 border-2 text-black  hover:bg-blue-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
-                     Create Availability
+                     New
                       </button>
             </div>
             <h1 className="text-green-600 mt-10 ml-4 font-light text-3xl">Focus Area</h1>
@@ -207,7 +283,7 @@ function Profile() {
                 other?.specialty?.map((m)=>(
                     <>
                      <button className="bg-gray-200  mr-4 ml-2 h-12 w-38 text-sm  mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold  px-4 rounded-3xl ">
-                    {m}
+                    {m} 
                       </button>
                     </>
                 ))
@@ -255,6 +331,12 @@ function Profile() {
                </>
            ))}
             </div>
+            
+            {
+              data[0]?.bookings.map((e)=>(
+                <p className="ml-4 mt-8">{e.email} ({e.slot} )</p>
+              ))
+            }
 
         </div>
 
