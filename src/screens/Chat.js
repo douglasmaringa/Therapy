@@ -26,7 +26,8 @@ export default function Chat() {
         }
         db.collection("chatroom").where("chatID", "==", state.id)
           .onSnapshot((querySnapshot) => {
-             
+             //sending a message to the chat room 
+       
             setData(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
              
       })

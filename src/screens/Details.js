@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from "react";
-import { useLocation,useNavigate } from 'react-router-dom';
+import { useLocation} from 'react-router-dom';
 import Nav from "../components/Nav";
 import {db} from '../base'
 import dateFormat from 'dateformat';
@@ -10,11 +10,11 @@ import {createChat} from "../slices/Chat"
 function Details() {
     const {state} = useLocation();
     const[data,setData]=useState([])
+    const[alert2,setAlert2]=useState("")
     const[userID,setUserID]=useState([])
     const { user } = useSelector(state => state.user)
-    const { chatroom } = useSelector(state => state.chatroom)
   const dispatch = useDispatch()
-  const navigate = useNavigate();
+  
 
     useEffect(() => {
 
@@ -24,15 +24,6 @@ function Details() {
         .onSnapshot((querySnapshot) => {
            
           setUserID(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
-          
-    })
-        //get all users
-        db.collection("users").onSnapshot((querySnapshot) => {
-           //get users and then filter out those that are not your friends
-          //setData(querySnapshot.docs.map((doc)=>doc.data()))
-          const jeepAutos = querySnapshot.docs.map((doc)=>doc.data()).filter((auto) => !auto.friends.includes(user.email))
-          //setData(jeepAutos)
-
           
     })
        
@@ -60,7 +51,7 @@ function Details() {
     //add booking to the therapist time slot object
     db.collection('timeslots').doc(data[0]?.id).update({
         timestamp:firebase.firestore.FieldValue.serverTimestamp(),
-       bookings:firebase.firestore.FieldValue.arrayUnion({"slot":e.slot,"email":"logged in user email"})
+       bookings:firebase.firestore.FieldValue.arrayUnion({"slot":e.slot,"email":user.email})
        })
     //deletes the current time slot
     db.collection('timeslots').doc(data[0]?.id).update({
@@ -76,14 +67,28 @@ function Details() {
   }
 
   const chat =()=>{
-    
-    if(userID){
-       dispatch(createChat({user,userID,state}))
+    db.collection("clients").where("email", "==", user.email)
+    .onSnapshot((querySnapshot) => {
        
-    }else{
-      alert("cannot talk to other therapists")
-    }
-    
+      const res = querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id }))
+      if(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })).length>0){
+           if(res[0].friends.includes(state.email)){
+
+            console.log(res)
+            return setAlert2("Already connected")
+           }else{
+            if(userID){
+              dispatch(createChat({user,userID,state}))
+              
+           }else{
+             alert("cannot talk to other therapists")
+           }
+           }
+      }else{
+        alert("Therapist cannot talk to other therapist")
+      }
+   })
+   
        
   }
   
@@ -196,10 +201,19 @@ function Details() {
         <h1 className="text-green-600 mt-10 font-light pr-4 text-3xl">Schedule Appointment</h1>
             <div className="flex border-b-2 border-gray-400 mr-10 pb-8">
             
-            <button onClick={chat} className="bg-green-600 mx-auto  mt-5 border-green-600 border-2 text-white  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
-                      Book Now
+            <button onClick={()=>{chat()}} className="bg-green-600 mx-auto  mt-5 border-green-600 border-2 text-white  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                      Connect
                       </button>
             </div>
+            {
+              alert2?(<>
+               <button className="bg-red-600 ml-20 mt-5 border-red-600 border-2 text-white  hover:bg-red-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                  {alert2}
+            </button>
+              </>):(<></>)
+            }
+           
+           
 
             <h1 className="text-green-600 mt-10 font-light ml-4 pr-4 text-3xl">Accepted Insurance</h1>
             <div className="flex border-b-2 border-gray-400 mr-10 pb-8">

@@ -1,6 +1,6 @@
-import React,{useEffect,useState} from 'react'
+import React,{useState} from 'react'
 import firebase from 'firebase';
-import {db,auth} from "../base"
+import {db} from "../base"
 
 function ChatUi({messages,user,id,you,other}) {
     
@@ -8,13 +8,14 @@ function ChatUi({messages,user,id,you,other}) {
 
    
     console.log(id)
-    
+    //messages are not unique so we will add id feild to make them unique
     const chat = ()=>{
           
         //sending a message to the chat room 
         db.collection('chatroom').doc(id).update({
         messages: firebase.firestore.FieldValue.arrayUnion({"message":message,"sender":user.email,"time":""}),
-        
+        lastmessage:message,
+        new:true
       })
       alert("sent")
      
@@ -36,9 +37,9 @@ function ChatUi({messages,user,id,you,other}) {
              
              <div class="flex flex-col leading-tight">
                 <div class="text-2xl mt-1 flex items-center">
-                   <span class="text-gray-700 mr-3">Dr {other}</span>
+                   <span class="text-gray-700 mr-3">{other}</span>
                 </div>
-                <span class="text-lg text-gray-600">Therapist</span>
+               
              </div>
           </div>
           <div class="flex items-center space-x-2">

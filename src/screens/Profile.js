@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import firebase from "firebase";
 import dateFormat from 'dateformat';
-import HorizontalScroll from 'react-horizontal-scrolling'
+
 
 const style = {
   position: 'absolute',
@@ -55,7 +55,7 @@ function Profile() {
     //console.log(user.email)
 
     useEffect(() => {
-       
+       if(user){
       //using chatroom id we get from conversation page we then look for that chat room using the chatID feild we added in users and said was not neccessary
       db.collection("timeslots").where("email", "==", user.email)
       .onSnapshot((querySnapshot) => {
@@ -64,7 +64,7 @@ function Profile() {
          
   })
 
-   
+}
 }, [user])
 console.log(data[0]?.bookings)
 

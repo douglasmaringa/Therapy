@@ -34,7 +34,7 @@ export default slice.reducer
 
 // Actions
 
-const { chatSuccess,chatFailed,chatLoading } = slice.actions
+const {chatLoading } = slice.actions
 
 export const createChat = ({user,userID,state}) => async dispatch => {
    
@@ -44,11 +44,13 @@ export const createChat = ({user,userID,state}) => async dispatch => {
     db.collection('chatroom').add({
         //timestamp:firebase.firestore.FieldValue.serverTimestamp(),
         members:[state.email,user.email],
-        messages:[{"sender":"","time":"","message":""}]
+        messages:[{"sender":"","time":"","message":""}],
+        lastmessage:"",
+        new:false,
     }).then(res=>{
       //adding the user into your friend list
       db.collection('clients').doc(userID[0].id).update({
-       friends: firestore.FieldValue.arrayUnion(user.email)
+       friends: firestore.FieldValue.arrayUnion(state.email)
       })
          //chatroom created
         //putting chat room id in current user user's object.
