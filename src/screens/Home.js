@@ -2,36 +2,135 @@ import React, { useEffect,useState } from "react";
 import {db} from '../base'
 import { useNavigate } from 'react-router-dom';
 import Nav from "../components/Nav"
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 function Home() {
   const[data,setData]=useState([])
+  const[data2,setData2]=useState([])
     const navigate = useNavigate();
     //const { user } = useSelector(state => state.user)
 
     //console.log(user.email)
 
+    const [ethnicity, setEthnicity] = React.useState('');
+    const [city, setCity] = React.useState('');
+    const [gender, setGender] = React.useState('');
+
     useEffect(() => {
 
-      db.collection("users")
-      .onSnapshot((querySnapshot) => {
-         
-        setData(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
+        db.collection("users")
+        .onSnapshot((querySnapshot) => {
+           
+          setData(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
+          
+    })
+  
         
-  })
+      }, [])
+  
+    const submit =()=>{
+        var person = { ethnicity: ethnicity, gender: gender,city:city},
+    
+    scores = data.map(function (a) {
+        var score = 0,
+            constraints = [
+                { keys: ['ethnicity'], fn: function (p, f) { return p === f; } },
+                { keys: ['city'], fn: function (p, f) { return p === f; }, },
+                { keys: ['gender'], fn: function (p, f) { return p === f; }, },
+            ];
 
-      
-    }, [])
+        constraints.forEach(function (c) {
+            c.keys.forEach(function (k) {
+                score += c.fn(person[k], a[k]);
+            });
+        });
+        return { score: score, name: a.name,title:a.title,image:a.image,about:a.about,wholeObj:a };
+    });
 
-    const details=(e)=>{
-      navigate('/details', { state: e});
+scores.sort(function (a, b) { return b.score - a.score; });
+
+console.log(scores.slice(0, 3).map(function (a)  {return {  name: a.name }}));
+console.log(scores);
+setData2(scores.slice(0, 2))
+    }
+
+   
+
+    const details=(wholeObj)=>{
+      navigate('/details', { state: wholeObj});
   }
     
-console.log(data)
+
   return (
     <div>
       <Nav/>
+      <div className="flex">
+      <Box sx={{ minWidth: 120 }} className='w-40 ml-40 mt-10'>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Ethnicity</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={ethnicity}
+          label="Ethnicity"
+          onChange={(e)=>{ setEthnicity(e.target.value)}}
+        >
+          <MenuItem value={"Caucasian"}>Caucasian</MenuItem>
+          <MenuItem value={"Latino"}>Latino</MenuItem>
+          <MenuItem value={"Asian"}>Asian</MenuItem>
+          <MenuItem value={"Mixed Race"}>Mixed</MenuItem>
+          <MenuItem value={"African American"}>African</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+
+    <Box sx={{ minWidth: 120 }} className='w-40 ml-20 mt-10'>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">City</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={city}
+          label="City"
+          onChange={(e)=>{ setCity(e.target.value)}}
+        >
+          <MenuItem value={"Boston"}>Boston</MenuItem>
+          <MenuItem value={"Cambridge"}>Cambridge</MenuItem>
+          <MenuItem value={"New York"}>New York</MenuItem>
+          <MenuItem value={"California"}>California</MenuItem>
+          <MenuItem value={"Missouri"}>Missouri</MenuItem>
+          <MenuItem value={"Texas"}>Texas</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+
+    <Box sx={{ minWidth: 120 }} className='w-40 ml-20 mt-10'>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={gender}
+          label="Gender"
+          onChange={(e)=>{ setGender(e.target.value)}}
+        >
+          <MenuItem value={"Male"}>Male</MenuItem>
+          <MenuItem value={"Female"}>Female</MenuItem>
+          <MenuItem value={"Transgender"}>Transgender</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+
+    <button className="ml-10 mt-10 px-10 text-white bg-blue-700" onClick={submit}>Calculate</button>
+    </div>
+
+
       {
-        data?.map((e)=>(
+        data2?.map((e)=>(
           <>
            <div class="p-10 lg:mx-20 font-serif">
    
@@ -44,9 +143,15 @@ console.log(data)
            <svg class="fill-current text-blue-500 w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
              <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
            </svg>
-           Members only
+           {
+               e?.score?(<>
+                <h1 className="text-red-700">{e.score*10}% Match</h1>
+               </>):(<>
+               </>)
+           }
+          
          </p>
-         <div class="text-green-600 font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" onClick={()=>{details(e)}}>{e.title}</div>
+         <div class="text-green-600 font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" onClick={()=>{details(e.wholeObj)}}>{e.title}</div>
          <p class="text-gray-700 text-base">{e.about}</p>
        </div>
        <div class="flex items-center">
@@ -64,6 +169,7 @@ console.log(data)
           </>
         ))
       }
+      
       </div>
   )
 }
