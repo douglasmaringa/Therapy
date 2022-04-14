@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from "react";
 import {db} from '../base'
 import { useNavigate } from 'react-router-dom';
+import { useSelector} from 'react-redux'
 import Nav from "../components/Nav"
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -19,6 +20,10 @@ function Home() {
     const [ethnicity, setEthnicity] = React.useState('');
     const [city, setCity] = React.useState('');
     const [gender, setGender] = React.useState('');
+    const [verified, setVerified] = React.useState(false);
+
+    const[client,setClient]=useState(false)
+    const { user } = useSelector(state => state.user)
 
     useEffect(() => {
 
@@ -28,11 +33,26 @@ function Home() {
           setData(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
           
     })
+
+    db.collection("clients").where("email","==",user.email)
+    .onSnapshot((querySnapshot) => {
+      //console.log(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
+      if(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })).length>0){
+        setClient(true)
+        setVerified(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id }))[0]?.verified)
+        setGender(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id }))[0]?.preference[0].gender)
+        setEthnicity(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id }))[0]?.preference[0].ethnicity)
+       
+      }else{
+          setClient(false)
+        }
+})
   
         
-      }, [])
+      }, [user])
   
     const submit =()=>{
+      console.log(ethnicity,gender)
         var person = { ethnicity: ethnicity, gender: gender,city:city},
     
     scores = data.map(function (a) {
@@ -64,11 +84,17 @@ setData2(scores.slice(0, 2))
       navigate('/details', { state: wholeObj});
   }
     
+  console.log(verified)
 
   return (
     <div>
       <Nav/>
-      <div className="flex">
+      {
+        client?(<>
+         <button className="ml-80 mt-10 h-16 px-10 text-white bg-blue-700" onClick={submit}>Get Your Therapist</button>
+   
+        </>):(<>
+          <div className="flex">
       <Box sx={{ minWidth: 120 }} className='w-40 ml-40 mt-10'>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Ethnicity</InputLabel>
@@ -125,10 +151,13 @@ setData2(scores.slice(0, 2))
       </FormControl>
     </Box>
 
-    <button className="ml-10 mt-10 px-10 text-white bg-blue-700" onClick={submit}>Calculate</button>
+    <button className="ml-10 mt-10 px-10 text-white bg-blue-700" onClick={submit}>Find Therapist</button>
     </div>
 
 
+        </>)
+      }
+      
       {
         data2?.map((e)=>(
           <>
@@ -145,13 +174,21 @@ setData2(scores.slice(0, 2))
            </svg>
            {
                e?.score?(<>
-                <h1 className="text-red-700">{e.score*10}% Match</h1>
+                <h1 className="text-red-700">{e.score*34-2}% Match</h1>
                </>):(<>
                </>)
            }
           
          </p>
-         <div class="text-green-600 font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" onClick={()=>{details(e.wholeObj)}}>{e.title}</div>
+         {
+           verified?(<>
+            <div class="text-green-600 font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" onClick={()=>{details(e.wholeObj)}}>{e.title}</div>
+        
+           </>):(<>
+            <div class="text-green-600 font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" >{e.title} <span className="text-red-800">Will Be Able To View When Verified</span></div>
+        
+           </>)
+         }
          <p class="text-gray-700 text-base">{e.about}</p>
        </div>
        <div class="flex items-center">
