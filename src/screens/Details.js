@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from "react";
-import { useLocation} from 'react-router-dom';
+import { useNavigate, useLocation} from 'react-router-dom';
 import Nav from "../components/Nav";
 import {db} from '../base'
 import dateFormat from 'dateformat';
@@ -14,6 +14,7 @@ function Details() {
     const[userID,setUserID]=useState([])
     const { user } = useSelector(state => state.user)
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   
 
     useEffect(() => {
@@ -75,7 +76,8 @@ function Details() {
            if(res[0].friends.includes(state.email)){
 
             console.log(res)
-            return setAlert2("Already connected")
+            setAlert2("Already connected")
+            navigate("/connections")
            }else{
             if(userID){
               dispatch(createChat({user,userID,state}))

@@ -75,7 +75,7 @@ scores.sort(function (a, b) { return b.score - a.score; });
 
 console.log(scores.slice(0, 3).map(function (a)  {return {  name: a.name }}));
 console.log(scores);
-setData2(scores.slice(0, 2))
+setData2(scores.slice(0, 3))
     }
 
    
@@ -91,6 +91,7 @@ setData2(scores.slice(0, 2))
       <Nav/>
       {
         client?(<>
+        <p style={{textAlign:'center',marginTop:'10px',fontSize:'22px'}}>Welcome Please Click Button to view therapists we have matched you with</p>
          <button className="ml-80 mt-10 h-16 px-10 text-white bg-blue-700" onClick={submit}>Get Your Therapist</button>
    
         </>):(<>
@@ -185,7 +186,7 @@ setData2(scores.slice(0, 2))
             <div class="text-green-600 font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" onClick={()=>{details(e.wholeObj)}}>{e.title}</div>
         
            </>):(<>
-            <div class="text-green-600 font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" >{e.title} <span className="text-red-800">Will Be Able To View When Verified</span></div>
+            <div class="text-green-600 font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" onClick={()=>{details(e.wholeObj)}} >{e.title} <span className="text-red-800">You're Not Verified</span></div>
         
            </>)
          }

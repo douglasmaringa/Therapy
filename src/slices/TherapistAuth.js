@@ -65,14 +65,14 @@ export const registerClient = ({name,email,password,image,gender,ethnicity,speci
             timestamp:firebase.firestore.FieldValue.serverTimestamp(),
             email:email,
             name:name,
-            image:image,
+            image:'https://images.squarespace-cdn.com/content/v1/61d75d93d08895301e56f1cb/881daf16-85f1-4e1a-96e5-1786cbd71764/AndStillWeRise_logo_color_notag-sm.png?format=1500w',
             userid:auth.user.uid,
             chatroom:[],
             friends:[],
             bookings:[],
             preference:[{"gender":gender,"ethnicity":ethnicity,"specialty":specialty,"reasons":reasons,"medium":medium,"hear":hear,"language":language,"clientType":clientType,"paymentType":paymentType}],
             verified:false,
-            insurance:[{"insuranceName":insuranceName,"insuranceNumber":insuranceNumber}]
+            insurance:[{"insuranceName":insuranceName,"insuranceNumber":insuranceNumber,"insuranceImage":image}]
           })
           
             dispatch(registerClientSuccess(auth.user))

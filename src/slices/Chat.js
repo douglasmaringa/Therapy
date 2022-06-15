@@ -44,7 +44,7 @@ export const createChat = ({user,userID,state}) => async dispatch => {
     db.collection('chatroom').add({
         //timestamp:firebase.firestore.FieldValue.serverTimestamp(),
         members:[state.email,user.email],
-        messages:[{"sender":"","time":"","message":""}],
+        messages:[{"sender":"","time":"","message":"Hello I will be able to respond as soon as we verify your details"}],
         lastmessage:"",
         new:false,
     }).then(res=>{

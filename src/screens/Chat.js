@@ -11,6 +11,9 @@ export default function Chat() {
     const[data,setData]=useState([])
     const[other,setOther]=useState("")
     const[you,setYou]=useState("")
+    const[client,setClient]=useState(true)
+    const [verified, setVerified] = React.useState(false);
+
 
     const { user } = useSelector(state => state.user)
 
@@ -32,13 +35,27 @@ export default function Chat() {
              
       })
     }, [user,state])
+
+    useEffect(() => {
+      db.collection("clients").where("email","==",user.email)
+      .onSnapshot((querySnapshot) => {
+        //console.log(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
+        if(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })).length>0){
+         
+          setVerified(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id }))[0]?.verified)
+         
+        }else{
+            setClient(false)
+          }})
+    }, [])
     
-console.log(data)
+    
+console.log(verified)
   return (
     <div>
       <Nav/>  
-      <h1 onClick={()=>{navigate("/connections")}}>back</h1>
-   <ChatUi user={user} id={state.id} you={you} other={other}  messages={ data[0]?.messages}/>
+     
+   <ChatUi client={client} verified={verified} user={user} id={state.id} you={you} other={other}  messages={ data[0]?.messages}/>
     </div>
   )
 }

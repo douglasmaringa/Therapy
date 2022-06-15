@@ -42,7 +42,7 @@ function Connections() {
        <div class="flex items-center">
          <img class="w-10 h-10 rounded-full mr-4" src="https://images.squarespace-cdn.com/content/v1/61d75d93d08895301e56f1cb/e4cd2bbe-ee94-4d77-b7e3-852f3de3a283/AND-STILL-WE-RISE-SIDE-sm.png?format=1000w" alt="Avatar of Writer"/>
          <div class="text-sm flex">
-           <p class="text-green-600 mt-4  leading-none pr-20">{e?.members[0]}</p>
+           <p class="text-green-600 mt-4  leading-none pr-20">{e?.members.filter((f)=> f != user.email)}</p>
            <p class="text-red-600 mt-4  leading-none pr-20">{e?.lastmessage}</p>
            
            <button onClick={()=>{chat(e)}} className="bg-white mx-2  mt-2 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-1 px-4 rounded-3xl ">
