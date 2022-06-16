@@ -1,13 +1,15 @@
 import React,{useState} from 'react'
 import firebase from 'firebase';
 import {db} from "../base"
+import { useNavigate } from 'react-router-dom';
 
-function ChatUi({messages,user,id,client,other,verified}) {
+function ChatUi({details,messages,user,id,client,other,verified}) {
     
     const[message,setMessage]=useState("")
+    const navigate = useNavigate();
 
    
-    console.log(id)
+    console.log(details)
     //messages are not unique so we will add id feild to make them unique
     const chat = ()=>{
           
@@ -20,6 +22,10 @@ function ChatUi({messages,user,id,client,other,verified}) {
       alert("sent")
      
    }
+
+   const open=()=>{
+      navigate('/clientdetails', { state: details[0]});
+    }
     
   return (
    
@@ -30,7 +36,7 @@ function ChatUi({messages,user,id,client,other,verified}) {
              
              <div class="flex flex-col leading-tight">
                 <div class="text-2xl mt-1 flex items-center">
-                   <span class="text-gray-700 mr-3">{other}</span>
+                   <span onClick={open} class="text-gray-700 mr-3 cursor-pointer">{other}</span>
                 </div>
                
              </div>

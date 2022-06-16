@@ -95,7 +95,9 @@ setData2(scores.slice(0, 3))
          <button className="ml-80 mt-10 h-16 px-10 text-white bg-blue-700" onClick={submit}>Get Your Therapist</button>
    
         </>):(<>
-          <div className="flex">
+         {/*
+         <div className="flex">
+           
       <Box sx={{ minWidth: 120 }} className='w-40 ml-40 mt-10'>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Ethnicity</InputLabel>
@@ -155,7 +157,10 @@ setData2(scores.slice(0, 3))
     <button className="ml-10 mt-10 px-10 text-white bg-blue-700" onClick={submit}>Find Therapist</button>
     </div>
 
-
+         */}
+          
+          <p style={{textAlign:'center',marginTop:'10px',fontSize:'22px'}}>Welcome Please Click Connections to view Clients we have matched you with</p>
+        
         </>)
       }
       
