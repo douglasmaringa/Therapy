@@ -17,7 +17,7 @@ export default function Chat() {
 
     const { user } = useSelector(state => state.user)
 
-    console.log(state)
+    //console.log(state)
 
     useEffect(() => {
         if(state.members[0]===user.email){
@@ -67,10 +67,10 @@ export default function Chat() {
     
 //console.log("details",details)
   return (
-    <div>
+    <div className='font-Rampart'>
       <Nav/>  
      
-   <ChatUi details={details} client={client} verified={verified} user={user} id={state.id} you={you} other={other}  messages={ data[0]?.messages}/>
+   <ChatUi details={details} client={client} verified={verified} user={user} id={state.id} you={you} other={other}  messages={ data[0]?.messages} chatroom={state}/>
     </div>
   )
 }

@@ -34,7 +34,7 @@ const register =(e)=>{
  }
 
   return (
-    <div>
+    <div className='font-Rampart'>
        <form className=" text-black rounded-lg w-full mt-20 p-5 ml-10 mr-10 md:mx-auto lg:mx-auto xlg:mx-auto 2xl:mx-auto max-w-lg">
                      
                   <div className="flex flex-wrap -mx-3 mb-6">
@@ -57,15 +57,15 @@ const register =(e)=>{
                     </div>
 
                     <div className='flext'>
-                    <button onClick={submit} className="bg-white border-green-600 border-2 text-black mr-2 mt-10 ml-auto hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-3xl">
+                    <button onClick={submit} className="bg-white border-secondary border-2 text-black mr-2 mt-10 ml-auto hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-3xl">
                        Sign in
                       </button>
 
-                      <button onClick={register} className="bg-white border-red-600 border-2 text-black mr-2 mt-10  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-3xl">
+                      <button onClick={register} className="bg-white border-third border-2 text-black mr-2 mt-10  hover:bg-primary hover:text-white font-bold py-2 px-4 rounded-3xl">
                       Register-Technician
                       </button>
 
-                      <button onClick={register2} className="bg-white border-red-600 border-2 text-black mr-2 mt-10  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-3xl">
+                      <button onClick={register2} className="bg-white border-third border-2 text-black mr-2 mt-10  hover:bg-primary hover:text-white font-bold py-2 px-4 rounded-3xl">
                       Register-Client
                       </button>
                     

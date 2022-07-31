@@ -10,7 +10,7 @@ function Sidebar() {
         
     }
     return (
-        <div className="max-w-full h-full bg-yellow-700 text-white font-medium">
+        <div className="font-Rampart max-w-full h-full bg-yellow-700 text-white font-medium">
            
 
             <div>

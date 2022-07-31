@@ -183,14 +183,14 @@ const focusData = [
 ];
 
   return (
-    <div className="">
+    <div className="font-Rampart">
 {(() => {
               if (step === 1){
                   return (
                     <form className=" text-black rounded-lg w-full mt-20 p-5 ml-10 mr-10 md:mx-auto lg:mx-auto xlg:mx-auto 2xl:mx-auto max-w-lg">
                       <h1 className="text-sm font-extrabold">Step 1</h1>
             <div class="flex items-center md:w-36">
-							<div class="w-full bg-green-600 rounded-full mr-2">
+							<div class="w-full bg-secondary rounded-full mr-2">
 							<div class="rounded-full text-xs leading-none h-2 text-center text-white"></div>
 							</div>
 							<div class="text-xs w-10 text-gray-600" x-text="parseInt(step / 3 * 100) +'%'"></div>
@@ -270,11 +270,11 @@ const focusData = [
                           </select>
                       </div>
                   
-                      <button onClick={prev}  className="bg-white border-green-600 border-2 text-black ml-4 rounded-3xl mt-10 hover:bg-red-700 hover:text-white font-bold py-2 px-4 ">
+                      <button onClick={prev}  className="bg-white border-secondary border-2 text-black ml-4 rounded-3xl mt-10 hover:bg-primary hover:text-white font-bold py-2 px-4 ">
                         Previous
                       </button>
                      
-                      <button onClick={next} className="bg-white border-green-600 border-2 text-black mr-2 mt-10 ml-auto hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-3xl">
+                      <button onClick={next} className="bg-white border-secondary border-2 text-black mr-2 mt-10 ml-auto hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-3xl">
                         Next Step
                       </button>
                   
@@ -291,7 +291,7 @@ const focusData = [
 
                   <h1 className="text-sm font-extrabold">Step 2</h1>
             <div class="flex items-center md:w-60">
-							<div class="w-full bg-green-600 rounded-full mr-2">
+							<div class="w-full bg-secondary rounded-full mr-2">
 							<div class="rounded-full  text-xs leading-none h-2 text-center text-white"></div>
 							</div>
 							<div class="text-xs w-10 text-gray-600" x-text="parseInt(step / 3 * 100) +'%'"></div>
@@ -361,7 +361,7 @@ const focusData = [
                                 </>)
                             }
                             <input type="file" onChange={handleImageAsFile} placeholder="upload image" class="form-control" id="exampleInputName1" aria-describedby="nameHelp" />
-                            <button onClick={handleFireBaseUpload} className="bg-white border-green-600 border-2 h-10 text-black rounded-3xl hover:bg-red-700 hover:text-white font-bold py-2 px-4 ">
+                            <button onClick={handleFireBaseUpload} className="bg-white border-secondary border-2 h-10 text-black rounded-3xl hover:bg-primary hover:text-white font-bold py-2 px-4 ">
                      Upload
                     </button>
                         </div>
@@ -382,11 +382,11 @@ const focusData = [
                    
                    
                 
-                    <button onClick={prev} className="bg-white border-green-600 border-2 text-black ml-4 rounded-3xl mt-10 hover:bg-red-700 hover:text-white font-bold py-2 px-4 ">
+                    <button onClick={prev} className="bg-white border-secondary border-2 text-black ml-4 rounded-3xl mt-10 hover:bg-primary hover:text-white font-bold py-2 px-4 ">
                       Previous
                     </button>
                    
-                    <button onClick={next} className="bg-white border-green-600 border-2 text-black mr-2 mt-10 ml-auto hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-3xl">
+                    <button onClick={next} className="bg-white border-secondary border-2 text-black mr-2 mt-10 ml-auto hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-3xl">
                       Next Step
                     </button>
                 
@@ -401,7 +401,7 @@ const focusData = [
                   <form className=" text-black rounded-lg w-full mt-20 p-5 ml-10 mr-10 md:mx-auto lg:mx-auto xlg:mx-auto 2xl:mx-auto max-w-lg">
   <h1 className="text-sm  font-extrabold">Step 3</h1>
             <div class="flex items-center md:w-100">
-							<div class="w-full bg-green-600 rounded-full mr-2">
+							<div class="w-full bg-secondary rounded-full mr-2">
 							<div class="rounded-full  text-xs leading-none h-2 text-center text-white"></div>
 							</div>
 							<div class="text-xs w-10 text-gray-600" x-text="parseInt(step / 3 * 100) +'%'"></div>
@@ -444,11 +444,11 @@ const focusData = [
     
     
    
-    <button onClick={prev} className="bg-white border-green-600 border-2 text-black ml-4 rounded-3xl mt-10 hover:bg-red-700 hover:text-white font-bold py-2 px-4 ">
+    <button onClick={prev} className="bg-white border-secondary border-2 text-black ml-4 rounded-3xl mt-10 hover:bg-primary hover:text-white font-bold py-2 px-4 ">
       Previous
     </button>
    
-    <button onClick={next} className="bg-white border-green-600 border-2 text-black mr-2 mt-10 ml-auto hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-3xl">
+    <button onClick={next} className="bg-white border-secondary border-2 text-black mr-2 mt-10 ml-auto hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-3xl">
       Next Step
     </button>
 

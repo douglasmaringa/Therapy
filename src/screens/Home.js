@@ -91,9 +91,10 @@ setData2(scores.slice(0, 3))
       <Nav/>
       {
         client?(<>
-        <p style={{textAlign:'center',marginTop:'10px',fontSize:'22px'}}>Welcome Please Click Button to view therapists we have matched you with</p>
-         <button className="ml-80 mt-10 h-16 px-10 text-white bg-blue-700" onClick={submit}>Get Your Therapist</button>
-   
+        <p className="font-cursive mx-10 font-bold" style={{textAlign:'center',marginTop:'20px',fontSize:'22px',color:"#B04727",lineHeight:"40px",fontSize:'56px'}}>Welcome Please Click Button to view therapists we have matched you with</p>
+         <div className="flex">
+         <button className="m-auto rounded-full mt-10 h-16 px-10 text-primary bg-white border-2 border-primary hover:bg-yellow-400" onClick={submit}>Get Your Therapist</button>
+         </div>
         </>):(<>
          {/*
          <div className="flex">
@@ -159,7 +160,7 @@ setData2(scores.slice(0, 3))
 
          */}
           
-          <p style={{textAlign:'center',marginTop:'10px',fontSize:'22px'}}>Welcome Please Click Connections to view Clients we have matched you with</p>
+          <p className="font-cursive font-bold text-xl mx-10" style={{textAlign:'center',marginTop:'20px',lineHeight:"40px",fontSize:'56px',color:"#B04727"}}>Welcome Please Click Connections to view Clients we have matched you with</p>
         
         </>)
       }
@@ -167,9 +168,9 @@ setData2(scores.slice(0, 3))
       {
         data2?.map((e)=>(
           <>
-           <div class="p-10 lg:mx-20 font-serif">
+           <div class="p-10 lg:mx-20 font-Rampart">
    
-   <div class=" w-full lg:max-w-full lg:flex">
+   <div class=" md:w-full lg:max-w-full lg:flex">
      <div class="h-48 lg:h-auto lg:w-48 flex-none bg-cover bg-no-repeat bg-center rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{"backgroundImage": `url('${e.image}')`}} title="Mountain">
      </div>
      <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
@@ -188,10 +189,10 @@ setData2(scores.slice(0, 3))
          </p>
          {
            verified?(<>
-            <div class="text-green-600 font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" onClick={()=>{details(e.wholeObj)}}>{e.title}</div>
+            <div class="text-secondary font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" onClick={()=>{details(e.wholeObj)}}>{e.title}</div>
         
            </>):(<>
-            <div class="text-green-600 font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" onClick={()=>{details(e.wholeObj)}} >{e.title} <span className="text-red-800">You're Not Verified</span></div>
+            <div class="text-secondary font-bold text-xl mb-2 hover:text-green-900 cursor-pointer" onClick={()=>{details(e.wholeObj)}} >{e.title} <span className="text-red-800">You're Not Verified</span></div>
         
            </>)
          }
@@ -200,7 +201,7 @@ setData2(scores.slice(0, 3))
        <div class="flex items-center">
          <img class="w-10 h-10 rounded-full mr-4" src={e.image} alt="Avatar of Writer"/>
          <div class="text-sm">
-           <p class="text-green-600  leading-none">{e.name}</p>
+           <p class="text-secondary  leading-none">{e.name}</p>
          
          </div>
        </div>

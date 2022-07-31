@@ -1,15 +1,33 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import firebase from 'firebase';
 import {db} from "../base"
 import { useNavigate } from 'react-router-dom';
 
-function ChatUi({details,messages,user,id,client,other,verified}) {
+function ChatUi({details,messages,user,id,client,other,verified,chatroom}) {
     
     const[message,setMessage]=useState("")
     const navigate = useNavigate();
 
+    useEffect(()=>{
+      let mounted = true
+      if (mounted) {
+         if(chatroom.to === user.email){
+           
+            db.collection('chatroom').doc(id).update({
+              "new":false,
+              })
+              
+             
+           }
+          }
+           return function cleanup() {
+            mounted = false
+            console.log("component unmounted")
+        }
+    },[chatroom])
+  
    
-    console.log(details)
+    console.log(chatroom.to)
     //messages are not unique so we will add id feild to make them unique
     const chat = ()=>{
           
@@ -17,19 +35,22 @@ function ChatUi({details,messages,user,id,client,other,verified}) {
         db.collection('chatroom').doc(id).update({
         messages: firebase.firestore.FieldValue.arrayUnion({"message":message,"sender":user.email,"time":""}),
         lastmessage:message,
+        to:other,
         new:true
       })
-      alert("sent")
-     
+      //alert("sent")
+      setMessage("")
    }
 
    const open=()=>{
       navigate('/clientdetails', { state: details[0]});
     }
+
+    console.log(details)
     
   return (
    
-    <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
+    <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen font-Rampart">
        <div class="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
           <div class="relative flex items-center space-x-4">
              

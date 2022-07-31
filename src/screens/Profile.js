@@ -148,7 +148,7 @@ console.log(data[0]?.bookings)
     //console.log(data)
 
   return (
-    <div>
+    <div className="font-Rampart">
         
      
 <div>
@@ -199,7 +199,7 @@ console.log(data[0]?.bookings)
             {
                 other?.online?(<>
                
-                 <button className="bg-white m-auto mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                 <button className="bg-white m-auto mt-5 border-third border-2 text-secondary  hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-lg ">
                         Offers Video
                       </button>
                      
@@ -211,7 +211,7 @@ console.log(data[0]?.bookings)
             {
                 other?.person?(<>
                
-                 <button className="bg-white m-auto mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                 <button className="bg-white m-auto mt-5 border-third border-2 text-secondary  hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-lg ">
                         Offers in Person
                       </button>
                      
@@ -220,18 +220,18 @@ console.log(data[0]?.bookings)
              </div>
         </div>
         <div className="flex-auto w-64 ... mt-10 mx-auto">
-            <h1 className="text-green-600 mt-10 font-light text-3xl">{name}</h1>
+            <h1 className="text-secondary font-semibold mt-10 text-3xl">{name}</h1>
            
             <div className="w-full mt-4 pr-4">
                         <label className="block uppercase tracking-wide text-xs font-bold mb-2" for="grid-last-name">
                           Title
                         </label>
                         <input value={title} onChange={(e)=>{setTitle(e.target.value)}}  className="appearance-none block w-full bg-gray-200  border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Enter New Title"/>
-                        <button onClick={updateTitle} className="bg-white  mt-5 border-red-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                        <button onClick={updateTitle} className="bg-white  mt-5 border-red-600 border-2 text-black  hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-lg ">
                       Update
                       </button>
                       </div>
-            <h1 className="text-green-600 mt-10 font-light text-3xl">Next Available Times <span className="text-red-600">(Click to remove)</span></h1>
+            <h1 className="text-secondary mt-10 font-light text-3xl">Next Available Times <span className="text-red-600">(Click to remove)</span></h1>
             <div className="flex flex-row border-b-2 border-gray-400 pb-8">
             <div className="flex overflow-auto">
                         
@@ -250,7 +250,7 @@ console.log(data[0]?.bookings)
                                      </button>
 
                                        </>):(<>
-                                        <button onClick={()=>{deleteBook(e)}} className="bg-white w-56 mx-2  mt-5 border-green-600 border-2 text-black  hover:bg-red-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                                        <button onClick={()=>{deleteBook(e)}} className="bg-white w-56 mx-2  mt-5 border-third border-2 text-secondary hover:bg-red-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
                                       {dateFormat(e.slot, "mmmm dS,h:MM TT")} &#x2192;
                                      </button>
                                        
@@ -258,7 +258,7 @@ console.log(data[0]?.bookings)
                                      }
                                      
                                 </>):(<>
-                                  <button className="bg-white w-56 mx-2  mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                                  <button className="bg-white w-56 mx-2  mt-5 border-third border-2 text-secondary  hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-lg ">
                                     No Available Slots 
                                    </button>
                                 </>)
@@ -272,17 +272,17 @@ console.log(data[0]?.bookings)
                      }
                     </div>
 
-                      <button onClick={openModal} className="bg-white ml-1  mt-5 border-blue-600 border-2 text-black  hover:bg-blue-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                      <button onClick={openModal} className="bg-white ml-1  mt-5 border-third border-2 text-secondary  hover:bg-blue-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
                      New
                       </button>
             </div>
-            <h1 className="text-green-600 mt-10 ml-4 font-light text-3xl">Focus Area</h1>
+            <h1 className="text-secondary mt-10 ml-4 font-light text-3xl">Focus Area</h1>
             <div className="grid sm:grid-cols-1 lg:grid-cols-3 border-b-2 border-gray-400 pb-8">
             
             {
                 other?.specialty?.map((m)=>(
                     <>
-                     <button className="bg-gray-200  mr-4 ml-2 h-12 w-38 text-sm  mt-5 border-green-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold  px-4 rounded-3xl ">
+                     <button className="bg-gray-200  mr-4 ml-2 h-12 w-38 text-sm  mt-5 border-third border-2 text-secondary  hover:bg-secondary hover:text-white font-bold  px-4 rounded-3xl ">
                     {m} 
                       </button>
                     </>
@@ -292,25 +292,25 @@ console.log(data[0]?.bookings)
                      
             </div>
 
-            <h1 className="text-green-600 mt-10 font-light text-3xl">What do you want clients to know about you?</h1>
+            <h1 className="text-secondary mt-10 font-light text-3xl">What do you want clients to know about you?</h1>
             <div className="flex border-b-2 border-gray-400 pb-8">
             
             <div className="w-full mt-4 pr-4">
                        
                         <textarea value={about} onChange={(e)=>{setAbout(e.target.value)}}  className="appearance-none h-80 block w-full bg-gray-200  border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Enter New Title"/>
-                        <button onClick={updateAbout} className="bg-white  mt-5 border-red-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                        <button onClick={updateAbout} className="bg-white  mt-5 border-red-600 border-2 text-black  hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-lg ">
                       Update
                       </button>
                       </div>
             </div>
             
-            <h1 className="text-green-600 mt-10 font-light text-3xl">What can clients expect to take away from sessions with you?</h1>
+            <h1 className="text-secondary mt-10 font-light text-3xl">What can clients expect to take away from sessions with you?</h1>
             <div className="flex border-b-2 border-gray-400 pb-8">
             
             <div className="w-full mt-4 pr-4">
                        
                         <textarea value={away} onChange={(e)=>{setAway(e.target.value)}}  className="appearance-none h-40 block w-full bg-gray-200  border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Enter New Title"/>
-                        <button onClick={updateAway} className="bg-white  mt-5 border-red-600 border-2 text-black  hover:bg-green-900 hover:text-white font-bold py-2 px-4 rounded-lg ">
+                        <button onClick={updateAway} className="bg-white  mt-5 border-red-600 border-2 text-black  hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-lg ">
                       Update
                       </button>
                       </div>
@@ -322,12 +322,12 @@ console.log(data[0]?.bookings)
         <div className="  flex-auto w-14 ... mt-10 mx-auto">
         
 
-            <h1 className="text-green-600 mt-10 font-light ml-4 pr-4 text-3xl">Accepted Insurance</h1>
+            <h1 className="secondary mt-10 font-light ml-4 pr-4 text-3xl">Accepted Insurance</h1>
             <div className="flex border-b-2 border-gray-400 mr-10 pb-8">
             
            {other?.insurance?.map((m)=>(
                <>
-               <p className="ml-4 mt-8">{m}</p>
+               <p className="text-secondary ml-4 mt-8">{m}</p>
                </>
            ))}
             </div>

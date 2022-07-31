@@ -13,7 +13,7 @@ function ClientDetails() {
   console.log(state)
   
   return (
-    <div>
+    <div className="font-Rampart">
         <Nav/>
         <div className="lg:flex w-full sm:flex-col md:flex-row lg:flex-row mb-4 mr-10 ">
 

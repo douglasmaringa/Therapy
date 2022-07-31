@@ -9,7 +9,18 @@ function Nav() {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const[client,setClient]=useState(false)
+  const[data,setData]=useState([])
 
+  useEffect(() => {
+    
+    db.collection("chatroom").where("members", "array-contains", user.email).where("new","==",true).where("to","==",user.email)
+    .onSnapshot((querySnapshot) => {
+       
+      setData(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
+       
+})
+
+}, [user]);
   
   useEffect(() => {
    if(user){
@@ -48,8 +59,10 @@ db.collection("clients").where("email","==",user.email)
     dispatch(logout())
   }
 
+  console.log(data)
+
   return (
-    <div>
+    <div className='font-Rampart'>
       <nav class="bg-white border-gray-100 border-2 px-2 sm:px-4 py-4 rounded dark:bg-gray-800">
   <div class="container flex flex-wrap justify-between items-center mx-auto">
   <a href="https://infallible-lamport-37a39c.netlify.app/" class="flex items-center">
@@ -77,24 +90,32 @@ db.collection("clients").where("email","==",user.email)
     </button>
   </div>
   <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
-    <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+    <ul class="flex text-primary flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
       <li>
-        <button onClick={()=>{navigate("/home")}}  class="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" aria-current="page">Home</button>
+        <button  onClick={()=>{navigate("/home")}}  class="text-lg block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-primary md:hover:font-cursive md:p-0 dark:text-white" aria-current="page">Home</button>
       </li>
       <li>
-        <button  class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Get Care</button>
+        <button  class="text-lg block py-2 pr-4 pl-3  text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary md:hover:font-cursive md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Get Care</button>
       </li>
       <li>
-        <button  class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">For Providers</button>
+        <button  class="text-lg block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary md:hover:font-cursive md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">For Providers</button>
       </li>
       <li>
-        <button  class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">For Health Plans</button>
+        <button  class="text-lg block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary md:hover:font-cursive md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">For Health Plans</button>
       </li>
       <li>
-        <button onClick={()=>{navigate("/connections")}} class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Connections</button>
-      </li>
+        {
+          data?.length > 0 ?(<>
+          <button onClick={()=>{navigate("/connections")}} class="text-lg block py-2 pr-4 pl-3 text-secondary border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:hover:font-cursive md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Connections <span className='text-red-700'>{data.length}</span></button>
+     
+          </>):(<>
+            <button onClick={()=>{navigate("/connections")}} class="text-lg block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:hover:font-cursive md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Connections</button>
+     
+          </>)
+        }
+         </li>
       <li>
-        <button onClick={signOut} class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Logout</button>
+        <button onClick={signOut} class="text-lg block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary md:hover:font-cursive md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Logout</button>
       </li>
     </ul>
   </div>
