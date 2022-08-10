@@ -2,9 +2,10 @@ import React,{useState,useEffect} from 'react'
 import  "./Register.css"
 import {useDispatch,useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { storage } from "../base";
+import { storage,db } from "../base";
 import Multiselect from 'multiselect-react-dropdown';
 import {registerClient} from "../slices/TherapistAuth"
+import Nav2 from '../components/Nav2';
 
 function RegisterClient() {
   const[step,setStep]=useState(1)
@@ -34,6 +35,9 @@ function RegisterClient() {
  const allInputs={imgUrl:''}
  const[imageAsFile,setImageAsFile]= useState("")
 const[imageAsUrl,setImageAsUrl]= useState(allInputs)
+
+const[data,setData]=useState([])
+const[matches,setMatches]=useState([])
 
  const navigate = useNavigate();
  const dispatch = useDispatch()
@@ -77,11 +81,14 @@ e.preventDefault()
 
 
   const next = (e)=>{
+    match()
     e.preventDefault()
+    
     if(step<3){
     setStep(step + 1)
     }else{
       console.log("its now 4")
+      
       submit()
     }
   }
@@ -98,8 +105,48 @@ e.preventDefault()
   const submit =()=>{
    
   //console.log(name,email,password,gender,city,ethnicity,about,education,away,image,insurance,focus,online,person)
-  dispatch(registerClient({name:name,email:email,password:password,image:imageAsUrl,gender:gender,ethnicity:ethnicity,specialty:specialty,reasons:reasons,medium:medium,hear:hear,language:language,clientType:clientType,paymentType:paymentType,insuranceName:insuranceName,insuranceNumber:insuranceNumber}))
+  dispatch(registerClient({name:name,email:email,password:password,image:imageAsUrl,gender:gender,ethnicity:ethnicity,specialty:specialty,reasons:reasons,medium:medium,hear:hear,language:language,clientType:clientType,paymentType:paymentType,insuranceName:insuranceName,insuranceNumber:insuranceNumber,matches:matches}))
 }
+
+//get data
+useEffect(() => {
+  db.collection("users")
+  .onSnapshot((querySnapshot) => {
+     
+    setData(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id })))
+    
+})
+}, [])
+
+
+//get top 3 therapists
+const match =()=>{
+  console.log(ethnicity,gender)
+    var person = { ethnicity: ethnicity, gender: gender,city:city},
+
+scores = data.map(function (a) {
+    var score = 0,
+        constraints = [
+            { keys: ['ethnicity'], fn: function (p, f) { return p === f; } },
+            { keys: ['city'], fn: function (p, f) { return p === f; }, },
+            { keys: ['gender'], fn: function (p, f) { return p === f; }, },
+        ];
+
+    constraints.forEach(function (c) {
+        c.keys.forEach(function (k) {
+            score += c.fn(person[k], a[k]);
+        });
+    });
+    return { score: score, name: a.name,title:a.title,image:a.image,about:a.about,wholeObj:a };
+});
+
+scores.sort(function (a, b) { return b.score - a.score; });
+
+console.log(scores.slice(0, 3).map(function (a)  {return {  name: a.name }}));
+console.log(scores);
+setMatches(scores.slice(0, 3))
+}
+
 
 
 
@@ -184,10 +231,11 @@ const focusData = [
 
   return (
     <div className="font-Rampart">
+      <Nav2/>
 {(() => {
               if (step === 1){
                   return (
-                    <form className=" text-black rounded-lg w-full mt-20 p-5 ml-10 mr-10 md:mx-auto lg:mx-auto xlg:mx-auto 2xl:mx-auto max-w-lg">
+                    <form className=" text-black rounded-lg w-full mt-3 p-5 ml-10 mr-10 md:mx-auto lg:mx-auto xlg:mx-auto 2xl:mx-auto max-w-lg">
                       <h1 className="text-sm font-extrabold">Step 1</h1>
             <div class="flex items-center md:w-36">
 							<div class="w-full bg-secondary rounded-full mr-2">

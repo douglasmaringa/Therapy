@@ -53,7 +53,7 @@ export default slice.reducer
 
 const { registerClientSuccess,registerSuccess,loginSuccess,registerLoading,registerFailed, logoutSuccess } = slice.actions
 
-export const registerClient = ({name,email,password,image,gender,ethnicity,specialty,reasons,medium,hear,language,clientType,paymentType,insuranceName,insuranceNumber}) => async dispatch => {
+export const registerClient = ({name,email,password,image,gender,ethnicity,specialty,reasons,medium,hear,language,clientType,paymentType,insuranceName,insuranceNumber,matches}) => async dispatch => {
   if(name){
   try {
     dispatch(registerLoading())
@@ -72,7 +72,9 @@ export const registerClient = ({name,email,password,image,gender,ethnicity,speci
             bookings:[],
             preference:[{"gender":gender,"ethnicity":ethnicity,"specialty":specialty,"reasons":reasons,"medium":medium,"hear":hear,"language":language,"clientType":clientType,"paymentType":paymentType}],
             verified:false,
-            insurance:[{"insuranceName":insuranceName,"insuranceNumber":insuranceNumber,"insuranceImage":image}]
+            insurance:[{"insuranceName":insuranceName,"insuranceNumber":insuranceNumber,"insuranceImage":image}],
+            matches:matches
+          
           })
           
             dispatch(registerClientSuccess(auth.user))

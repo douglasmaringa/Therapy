@@ -5,6 +5,7 @@ import {register} from "../slices/TherapistAuth"
 import { useNavigate } from 'react-router-dom';
 import { storage } from "../base";
 import Multiselect from 'multiselect-react-dropdown';
+import Nav2 from '../components/Nav2';
 
 function Register() {
   const[step,setStep]=useState(1)
@@ -182,10 +183,11 @@ const focusData = [
 
   return (
     <div className="font-Rampart">
+      <Nav2/>
 {(() => {
               if (step === 1){
                   return (
-                    <form className=" text-black rounded-lg w-full mt-20 p-5 ml-10 mr-10 md:mx-auto lg:mx-auto xlg:mx-auto 2xl:mx-auto max-w-lg">
+                    <form className=" text-black rounded-lg w-full mt-3 p-5 ml-10 mr-10 md:mx-auto lg:mx-auto xlg:mx-auto 2xl:mx-auto max-w-lg">
                       <h1 className="text-sm font-extrabold">Step 1</h1>
             <div class="flex items-center md:w-36">
 							<div class="w-full bg-secondary rounded-full mr-2">

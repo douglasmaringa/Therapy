@@ -26,9 +26,9 @@ function App() {
     <Route path="/details" element={<Details />} />
     <Route path="/home" element={<Home />} />
     <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/registerclient" element={<RegisterClient />} />
-      <Route path="/" element={<Landing/>} />
+    <Route path="/register" element={<Register />} />
+    <Route path="/registerclient" element={<RegisterClient />} />
+    <Route path="/" element={<Landing/>} />
     </Routes>
   </BrowserRouter>
   )

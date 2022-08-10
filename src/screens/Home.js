@@ -21,7 +21,7 @@ function Home() {
     const [city, setCity] = React.useState('');
     const [gender, setGender] = React.useState('');
     const [verified, setVerified] = React.useState(false);
-
+    const [matches, setMatches] = React.useState([]);
     const[client,setClient]=useState(false)
     const { user } = useSelector(state => state.user)
 
@@ -42,7 +42,7 @@ function Home() {
         setVerified(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id }))[0]?.verified)
         setGender(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id }))[0]?.preference[0].gender)
         setEthnicity(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id }))[0]?.preference[0].ethnicity)
-       
+        setMatches(querySnapshot.docs.map(doc=>({ ...doc.data(), id: doc.id }))[0]?.matches)
       }else{
           setClient(false)
         }
@@ -91,9 +91,9 @@ setData2(scores.slice(0, 3))
       <Nav/>
       {
         client?(<>
-        <p className="font-cursive mx-10 font-bold" style={{textAlign:'center',marginTop:'20px',fontSize:'22px',color:"#B04727",lineHeight:"40px",fontSize:'56px'}}>Welcome Please Click Button to view therapists we have matched you with</p>
+        <p className="font-cursive mx-10 font-bold" style={{textAlign:'center',marginTop:'20px',fontSize:'22px',color:"#B04727",lineHeight:"40px",fontSize:'56px'}}>Welcome Below are a list of therapists we have matched you with</p>
          <div className="flex">
-         <button className="m-auto rounded-full mt-10 h-16 px-10 text-primary bg-white border-2 border-primary hover:bg-yellow-400" onClick={submit}>Get Your Therapist</button>
+         {/*<button className="m-auto rounded-full mt-10 h-16 px-10 text-primary bg-white border-2 border-primary hover:bg-yellow-400" onClick={submit}>Get Your Therapist</button>*/}
          </div>
         </>):(<>
          {/*
@@ -166,7 +166,7 @@ setData2(scores.slice(0, 3))
       }
       
       {
-        data2?.map((e)=>(
+        matches?.map((e)=>(
           <>
            <div class="p-10 lg:mx-20 font-Rampart">
    

@@ -18,8 +18,24 @@ function Landing() {
                         <button 
                             type="button"  
                             onClick={()=>{navigate("/login")}} 
-                            class="text-center m-auto font-bold w-80 py-4 bg-primary hover:bg-secondary rounded-md text-white">
+                            class="text-center m-auto mb-5 font-bold w-80 py-4 bg-black hover:bg-secondary rounded-md text-white">
                                 SIGN IN
+                        </button>
+                        <br/>
+                        <button 
+                            type="button"  
+                            
+                            onClick={()=>{navigate("/registerclient")}} 
+                            class="text-center m-auto mb-5 font-bold w-80 py-4 bg-gray-400 hover:bg-secondary rounded-md text-white">
+                                Looking For Therapist
+                        </button>
+                        <br/>
+                        <button 
+                            type="button"
+                            style={{backgroundColor:"#A29285"}}  
+                            onClick={()=>{navigate("/register")}} 
+                            class="text-center m-auto mb-5 font-bold w-80 py-4  hover:bg-secondary rounded-md text-white">
+                                Therapist Section
                         </button>
                     </div>
                 </div>

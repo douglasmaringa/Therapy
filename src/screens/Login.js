@@ -59,17 +59,7 @@ const register =(e)=>{
                     <div className='flext'>
                     <button onClick={submit} className="bg-white border-secondary border-2 text-black mr-2 mt-10 ml-auto hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-3xl">
                        Sign in
-                      </button>
-
-                      <button onClick={register} className="bg-white border-third border-2 text-black mr-2 mt-10  hover:bg-primary hover:text-white font-bold py-2 px-4 rounded-3xl">
-                      Register-Technician
-                      </button>
-
-                      <button onClick={register2} className="bg-white border-third border-2 text-black mr-2 mt-10  hover:bg-primary hover:text-white font-bold py-2 px-4 rounded-3xl">
-                      Register-Client
-                      </button>
-                    
-                     
+                      </button> 
                       </div>
                   
                   
