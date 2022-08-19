@@ -14,12 +14,12 @@ function Landing() {
                     
                   
                     <div class="text-sm font-sans font-medium w-full pr-20 ">
-                    <h1 class="font-bold text-white text-lg pb-10">Welcome</h1>
+                    <h1 class="font-bold text-white text-lg pb-10">Get Matched Now With A Therapist Who Gets You</h1>
                         <button 
                             type="button"  
                             onClick={()=>{navigate("/login")}} 
                             class="text-center m-auto mb-5 font-bold w-80 py-4 bg-black hover:bg-secondary rounded-md text-white">
-                                SIGN IN
+                                Sign In
                         </button>
                         <br/>
                         <button 
@@ -27,7 +27,7 @@ function Landing() {
                             
                             onClick={()=>{navigate("/registerclient")}} 
                             class="text-center m-auto mb-5 font-bold w-80 py-4 bg-gray-400 hover:bg-secondary rounded-md text-white">
-                                Looking For Therapist
+                                Connect With A Therapist
                         </button>
                         <br/>
                         <button 
@@ -35,7 +35,7 @@ function Landing() {
                             style={{backgroundColor:"#A29285"}}  
                             onClick={()=>{navigate("/register")}} 
                             class="text-center m-auto mb-5 font-bold w-80 py-4  hover:bg-secondary rounded-md text-white">
-                                Therapist Section
+                                I Am A Therapist
                         </button>
                     </div>
                 </div>
