@@ -107,7 +107,7 @@ function Details() {
                 state?.online?(<>
                
                  <button className="bg-white m-auto mt-5 border-third border-2 text-third  hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-lg ">
-                        Offers Video
+                        Offers Video Sessions
                       </button>
                      
                 </>):(<></>)
@@ -119,7 +119,7 @@ function Details() {
                 state?.person?(<>
                
                  <button className="bg-white m-auto mt-5 border-third border-2 text-third  hover:bg-secondary hover:text-white font-bold py-2 px-4 rounded-lg ">
-                        Offers in Person
+                        Offers in Person Sessions
                       </button>
                      
                 </>):(<></>)
