@@ -132,7 +132,7 @@ const focusData = [
     id: 1,
   },
   {
-   name: 'Mental',
+   name: 'Self-Esteem',
     id: 2,
   },
   {
@@ -143,7 +143,7 @@ const focusData = [
     id: 4,
   },
   {
-   name: 'Love-Issues',
+   name: 'Eating Disorder',
     id: 5,
   },
   {
@@ -151,15 +151,15 @@ const focusData = [
    id: 6,
   },
   {
-    name: 'Anger-Issues',
+    name: 'Anger',
     id: 7,
   },
   {
-   name: 'Mens-Issues',
+   name: 'Relationship',
    id:8,
   },
   {
-   name: 'LGBTQIA+',
+   name: 'Grief',
     id: 9,
   },{
   name: 'Depression',
