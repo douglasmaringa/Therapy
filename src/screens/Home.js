@@ -109,11 +109,13 @@ setData2(scores.slice(0, 3))
           label="Ethnicity"
           onChange={(e)=>{ setEthnicity(e.target.value)}}
         >
-          <MenuItem value={"Caucasian"}>Caucasian</MenuItem>
-          <MenuItem value={"Latino"}>Latino</MenuItem>
+          <MenuItem value={"White/ Caucasian"}>Caucasian</MenuItem>
+          <MenuItem value={"LatinX"}>LatinX</MenuItem>
           <MenuItem value={"Asian"}>Asian</MenuItem>
-          <MenuItem value={"Mixed Race"}>Mixed</MenuItem>
-          <MenuItem value={"African American"}>African</MenuItem>
+          <MenuItem value={"Black or African American"}>Black or African American</MenuItem>
+          <MenuItem value={"Native Hawaiian or Other Pacific Islander"}>Native Hawaiian or Other Pacific Islander</MenuItem>
+          <MenuItem value={"American Indian or Alaska Native"}>American Indian or Alaska Native</MenuItem>
+                  
         </Select>
       </FormControl>
     </Box>
@@ -130,7 +132,7 @@ setData2(scores.slice(0, 3))
         >
           <MenuItem value={"Boston"}>Boston</MenuItem>
           <MenuItem value={"Cambridge"}>Cambridge</MenuItem>
-          <MenuItem value={"New York"}>New York</MenuItem>
+          <MenuItem value={"Washington"}>New York</MenuItem>
           <MenuItem value={"California"}>California</MenuItem>
           <MenuItem value={"Missouri"}>Missouri</MenuItem>
           <MenuItem value={"Texas"}>Texas</MenuItem>
@@ -150,7 +152,12 @@ setData2(scores.slice(0, 3))
         >
           <MenuItem value={"Male"}>Male</MenuItem>
           <MenuItem value={"Female"}>Female</MenuItem>
-          <MenuItem value={"Transgender"}>Transgender</MenuItem>
+          <MenuItem value={"Transgender Female"}>Transgender Female</MenuItem>
+          <MenuItem value={"Transgender Male"}>Transgender Male</MenuItem>
+          <MenuItem value={"No Preference"}>No Preferenc</MenuItem>
+          <MenuItem value={"Gender Queer"}>Gender Queer</MenuItem>
+          <MenuItem value={"Gender Variant"}>Gender Variant</MenuItem>
+          <MenuItem value={"Non-binary"}>Non-binary</MenuItem>
         </Select>
       </FormControl>
     </Box>
